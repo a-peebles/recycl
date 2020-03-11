@@ -1,0 +1,25 @@
+<resources>
+
+
+    <string-array name="upload_categories">
+        <item>Books</item>
+        <item>Kitchen appliances</item>
+        <item>Tools</item>
+        <item>Outdoors</item>
+        <item>Clothes</item>
+        <item>Toys</item>
+        <item>Media</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+
+    </string-array>
+</resources>
