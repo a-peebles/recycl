@@ -34,6 +34,7 @@ import com.recycl.ui.items.view.ViewItemActivity
  * Activity to edit Item data
  * @see AppCompatActivity
  * @see EditItemView
+ * Activity to edit item data
  */
 class EditItemActivity: AppCompatActivity(), EditItemView {
 
@@ -46,12 +47,12 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
     // Items image on device
     private lateinit var imageUri: String
 
-
+    // Items image on device
     private lateinit var photoUri: Uri
 
     /**
      * onCreate
-     * Sets up the Activity its user interface
+     * Sets up the Activity user interface
      * and the presenter view
      * @param savedInstanceState - Activity's previously saved state
      */
@@ -119,6 +120,25 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
     }
 
     /**
+     * onRequestPermissionsResult
+     * Gets the result of the permission requested and if true opens
+     * the select image dialog
+     * @param requestCode - Permission request code
+     * @param permissions - Permissions requested
+     * @grantResults - Result of granting permission
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if(verifyPermissions()) {
+            selectImage()
+        }
+    }
+
+
+    /**
      * getFilePath
      * Gets the file Path for the image
      * @return File - Corresponding file of the image
@@ -150,6 +170,7 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
     }
 
     /**
+     * displayImagePreview
      * Displays the image preview from the selected gallery photo
      * @param filePath - The device file path where image is located
      */
@@ -158,6 +179,7 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
     }
 
     /**
+     * displayImagePreview
      * Displays the image preview from the camera image taken
      * @param fileUri - The Uri where image is located
      */
@@ -189,6 +211,7 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
 
     /**
      * onActivityResult
+     * Used to set the Item Image to the image captured or selected
      * @param requestCode - The Activity requested
      * @param resultCode - The result of the Activity
      * @param data - The data from the external Activity
@@ -278,7 +301,7 @@ class EditItemActivity: AppCompatActivity(), EditItemView {
      * Displays a toast if the Item could not be edited
      */
     override fun showEditError() {
-        showToast(this ,getString(R.string.item_upload_unsuccessful) )
+        showToast(this ,getString(R.string.item_edit_unsuccessful) )
     }
 
     /**

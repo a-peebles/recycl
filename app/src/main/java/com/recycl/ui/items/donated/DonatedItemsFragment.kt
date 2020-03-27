@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_feed.*
  * @author Alexander Peebles
  * Student Number: 150328687
  * @see DonatedItemsView
+ * @see Fragment
  * Used to display the Item cards in a feed to scroll through
  */
 class DonatedItemsFragment: Fragment(), DonatedItemsView {
@@ -33,7 +34,7 @@ class DonatedItemsFragment: Fragment(), DonatedItemsView {
     /**
      * onCreateView
      * Used to create the view for the Fragment
-     * @param inflater - Used to instansiate xml layout
+     * @param inflater - Used to instantiate xml layout
      * @param container - Contains xml views to load
      * @param savedInstanceState - Fragments previous state
      * @return View for the Fragment
@@ -48,9 +49,9 @@ class DonatedItemsFragment: Fragment(), DonatedItemsView {
 
     /**
      * onViewCreated
+     * Sets the fragments presenter and other prerequisite tasks
      * @param view - View for the Fragment
      * @param savedInstanceState Fragments previously saved state
-     * Sets the fragments presenter and other prerequisite tasks
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

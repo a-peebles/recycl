@@ -3,7 +3,6 @@ package com.recycl.ui.profile
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,32 +14,32 @@ import com.recycl.ui.reminder.ReminderActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ProfileFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * ProfileFragment
+ * @author Alexander Peebles
+ * Student Number: 150328687
+ * @see ProfileView
+ * @see Fragment
+ * Used to display the users profile information
  */
 class ProfileFragment : Fragment(), ProfileView {
 
-
+    // Presenter used to handle app logic
     private val presenter by lazy { profilePresenter() }
-    private val  TAG = "ProfileFragment"
 
 
-
+    /**
+     * onCreateView
+     * Used to create the view for the Fragment
+     * @param inflater - Used to instantiate xml layout
+     * @param container - Contains xml views to load
+     * @param savedInstanceState - Fragments previous state
+     * @return View for the Fragment
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "Fragment loaded")
         // Inflate the layout for this fragment
 
         val rootView = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -48,7 +47,13 @@ class ProfileFragment : Fragment(), ProfileView {
         presenter.getProfile()
         return rootView
     }
-
+    /**
+     *
+     * onViewCreated
+     * Sets the fragments presenter and other prerequisite tasks
+     * @param view - View for the Fragment
+     * @param savedInstanceState Fragments previously saved state
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.setView(this)
@@ -56,27 +61,55 @@ class ProfileFragment : Fragment(), ProfileView {
 
     }
 
+    /**
+     * showName
+     * Used to show a users name on the profileName TextView
+     * @param firstName - Users first name
+     * @param lastName - Users last name
+     */
     override fun showName(firstName: String, lastName: String) {
         profileName.text = getString(R.string.profile_name, firstName, lastName)
 
     }
 
+    /**
+     * showProfileImage
+     * Used to show the users profile image
+     */
     override fun showProfileImage(photoPath: String) {
         profileImage.setImageBitmap(BitmapFactory.decodeFile(photoPath))
     }
 
+    /**
+     * openReminder
+     * Opens the reminder activity
+     */
     override fun openReminder() {
         startActivity(Intent(context, ReminderActivity::class.java))
     }
 
+    /**
+     * showNumberOfItemsUploaded
+     * Shows the number of items uploaded by the user
+     * @param itemCount - The number of items the user has uploaded
+     */
     override fun showNumberOfItemsUploaded(itemCount: Int) {
         numberOfUploadedItems.text = itemCount.toString()
     }
-
+    /**
+     * showNumberOfItemsDonated
+     * Shows the number of items donated by the user
+     * @param donatedItemCount - The number of items the user has donated
+     */
     override fun showNumberOfItemsDonated(donatedItemCount: Int) {
         numberOfDonatedItems.text = donatedItemCount.toString()
     }
 
+    /**
+     * showProfileDescription
+     * Show the users profile description in the profileDescription TextView
+     * @param description - User description to display
+     */
     override fun showProfileDescription(description: String) {
         profileDescription.text = getString(R.string.profile_description, description)
     }

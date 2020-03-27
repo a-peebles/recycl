@@ -25,7 +25,6 @@ class ItemHolder(
     /**
      * displayData
      * Displays the data for the item in the corresponding view and sets click
-     *
      * @param item - Item data to display
      * @param imageUri - Corresponding image location on the device
      */

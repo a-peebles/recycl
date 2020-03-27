@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.transition.Transition
 import com.recycl.R
 import com.recycl.common.onClick
 import com.recycl.common.showToast
@@ -16,19 +15,35 @@ import com.recycl.ui.main.MainActivity
 import com.recycl.viewItemPresenter
 import kotlinx.android.synthetic.main.activity_view_item.*
 
+
+/**
+ * ViewItemActivity
+ * @author Alexander Peebles
+ * Student Number: 150328687
+ * @see ViewItemView
+ * @see AppCompatActivity
+ * Activity used to display item information, image and options
+ */
 class ViewItemActivity: AppCompatActivity(), ViewItemView {
 
 
-    private var TAG = "ItemActivity"
-
+    // Presenter used to handle button clicks
     private val presenter by lazy { viewItemPresenter() }
 
+    // Item and corresponding Item Image to be displayed
     private lateinit var item: Item
     private lateinit var imageUri: String
 
+    // Keys for parcelable item
     private val ITEM = "item"
-    private val ITEM_IMAGE_URI = "itemImageUri"
+    private val ITEM_IMAGE_URI = "imageUri"
 
+    /**
+     * onCreate
+     * Sets up the Activity user interface
+     * and the presenter view
+     * @param savedInstanceState - Activity's previously saved state
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_item)
@@ -39,17 +54,32 @@ class ViewItemActivity: AppCompatActivity(), ViewItemView {
 
     }
 
+    /**
+     * initUi
+     * Sets up the interactive components of the user interface
+     */
     private fun initUi() {
-        windowTransition()
-        item = intent.getParcelableExtra("item")!!
+        item = intent.getParcelableExtra(ITEM)!!
         loadItem()
     }
 
+    /**
+     * onCreateOptionsMenu
+     * Creates the options menu when the corresponding button is clicked
+     * @param menu - Menu to display
+     * @return true when option button clicked
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.item_menu, menu)
         return true
     }
 
+    /**
+     * onOptionsItemSelected
+     * Performs corresponding action when a menu option is pressed
+     * @param menuItem - menu option that was clicked
+     *
+     */
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.actionEditItem -> {
@@ -64,6 +94,11 @@ class ViewItemActivity: AppCompatActivity(), ViewItemView {
         return super.onOptionsItemSelected(menuItem)
     }
 
+    /**
+     * onSaveInstanceState
+     * Saves the state of the Activity if the application is left
+     * @param outState - Information to save
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.run {
             putParcelable(ITEM, item)
@@ -72,19 +107,28 @@ class ViewItemActivity: AppCompatActivity(), ViewItemView {
         super.onSaveInstanceState(outState)
     }
 
-
+    /**
+     * onRestoreInstanceState
+     * Restores the state of the Activity if the application is re-entered
+     * @param savedInstanceState - Information to display
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         item = savedInstanceState.getParcelable(ITEM)!!
         imageUri = savedInstanceState.getString(ITEM_IMAGE_URI)!!
         loadItem()
     }
 
+    /**
+     * loadItem
+     * loads the information from the Item object into their corresponding
+     * TextFields and loads the items image
+     */
     private fun loadItem() {
         itemName.text = item.itemName
         itemCategory.text = item.itemCategory
         itemDescription.text = item.itemDescription
         itemLocation.text = item.itemLocation
-        this.imageUri = intent.getStringExtra("imageUri")!!
+        this.imageUri = intent.getStringExtra(ITEM_IMAGE_URI)!!
         itemImage.setImageBitmap(BitmapFactory.decodeFile(this.imageUri))
         if(item.isDonated) {
             setDonated()
@@ -95,49 +139,34 @@ class ViewItemActivity: AppCompatActivity(), ViewItemView {
         }
     }
 
-    private fun windowTransition() {
-        window.enterTransition.addListener(object : Transition.TransitionListener,
-            android.transition.Transition.TransitionListener {
-            override fun onTransitionEnd(transition: Transition) {
-                donateButton.animate().alpha(1.0f)
-                window.enterTransition.removeListener(this)
-            }
-
-            override fun onTransitionCancel(transition: Transition) { }
-            override fun onTransitionPause(transition: Transition) { }
-            override fun onTransitionResume(transition: Transition) { }
-            override fun onTransitionStart(transition: Transition) { }
-            override fun onTransitionEnd(transition: android.transition.Transition?) {
-                donateButton.animate().alpha(1.0f)
-                window.enterTransition.removeListener(this)
-            }
-
-            override fun onTransitionResume(transition: android.transition.Transition?) {
-            }
-
-            override fun onTransitionPause(transition: android.transition.Transition?) {
-            }
-
-            override fun onTransitionCancel(transition: android.transition.Transition?) {}
-
-            override fun onTransitionStart(transition: android.transition.Transition?) { }
-
-        })
-    }
-
-
+    /**
+     * setDonated
+     * Used to set the item to a donated item
+     */
     override fun setDonated() {
         donateButton.setImageResource(R.drawable.ic_donated_white)
     }
 
+    /**
+     * setUndonated
+     * Used to set the item as an item that is to be donated
+     */
     override fun setUndonated() {
         donateButton.setImageResource(R.drawable.ic_donate_white)
     }
 
+    /**
+     * setError
+     * Used to display an error if the item donation status could not be changed
+     */
     override fun setError() {
         showToast(this, getString(R.string.donation_error))
     }
 
+    /**
+     * itemDeleteSuccess
+     * Displays a toast if the item was able to be deleted successfully
+     */
     override fun itemDeleteSuccess() {
         showToast(this, getString(R.string.item_delete_success_title))
         startActivity(Intent(this, MainActivity::class.java))
@@ -145,11 +174,20 @@ class ViewItemActivity: AppCompatActivity(), ViewItemView {
 
     }
 
-
+    /**
+     * itemDeleteError
+     * Displays a toast if the item could not be deleted
+     */
     override fun itemDeleteError() {
         com.recycl.common.showDialog(this, getString(R.string.item_delete_error_title), getString(
             R.string.item_delete_error_text), getString(R.string.item_positive))    }
 
+
+    /**
+     * openEditItem
+     * @param item - Item to be edited
+     * @param imageUri - Corresponding Item image locations
+     */
     override fun openEditItem(item: Item, imageUri: String) {
         val intent = Intent(applicationContext, EditItemActivity::class.java)
         intent.putExtra("item",item)

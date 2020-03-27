@@ -72,6 +72,10 @@ interface EditItemView {
      */
     fun showItemDescriptionError()
 
+    /**
+     * showItemLocationError
+     * Shows error regarding an item location
+     */
     fun showItemLocationError()
 
     /**

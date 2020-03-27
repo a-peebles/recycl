@@ -8,7 +8,7 @@ import com.recycl.model.Item
  * @author Alexander Peebles
  * Student Number: 150328687
  * @see DonatedItemsFragment
- * Intreface to display Item cards in a feed to scroll through
+ * Interface to display Item cards in a feed to scroll through
  */
 interface DonatedItemsView {
 

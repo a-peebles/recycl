@@ -1,5 +1,8 @@
 package com.recycl
 
+/**
+ * Used to assign Presenter functions to their corresponding components
+ */
 private fun component() = BaseApplication.component
 
 

@@ -156,4 +156,9 @@
     <string name="item_update_error">Item could not be edited</string>
     <string name="password_reset_email_success">Email sent to: %1$s</string>
     <string name="password_reset_email_error">Unable to send email</string>
+    <string name="login_unsuccessful">Incorrect email or password</string>
+    <string name="item_edit_unsuccessful">Item could not be edited</string>
+    <string name="no_image">You must upload a profile image</string>
+    <string name="verification_email_sent">Verification email sent to: %1$s</string>
+
 </resources>

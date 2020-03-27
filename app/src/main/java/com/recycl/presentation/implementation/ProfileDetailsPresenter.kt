@@ -31,6 +31,9 @@ class ProfileDetailsPresenter @Inject constructor(
     // Description string
     private var description = ""
 
+    // Boolean to check if an image has been uploaded
+    private var imageUploaded = false
+
     /**
      * setView
      * Sets the view for the presenter to retrieve data from
@@ -54,16 +57,19 @@ class ProfileDetailsPresenter @Inject constructor(
 
     /**
      * onContinueTap
-     * Uploads the image and adds the profile information to Firebase also updates the view
+     * Uploads the image or displays an error and adds the profile information to Firebase also updates the view
      */
     override fun onContinueTap() {
-        storage.uploadImage(profileImageUri) {
+        if (imageUploaded) {
+            storage.uploadImage(profileImageUri) {
 
-            database.addProfileImage(authentication.getUserId(), it)
-            database.addProfileDescription(authentication.getUserId(), description)
-            view.onDetailsSuccess()
+                database.addProfileImage(authentication.getUserId(), it)
+                database.addProfileDescription(authentication.getUserId(), description)
+                view.onDetailsSuccess()
+            }
+        } else {
+            view.onImageError()
         }
-
     }
 
     /**
@@ -99,6 +105,7 @@ class ProfileDetailsPresenter @Inject constructor(
     override fun showPreview(filePath: String) {
         this.profileImageUri = Uri.parse(filePath)
         view.displayImagePreview(filePath)
+        imageUploaded = true
     }
 
     /**
@@ -109,5 +116,6 @@ class ProfileDetailsPresenter @Inject constructor(
     override fun showPreview(uri: Uri) {
         this.profileImageUri = uri
         view.displayImagePreview(uri)
+        imageUploaded = true
     }
 }

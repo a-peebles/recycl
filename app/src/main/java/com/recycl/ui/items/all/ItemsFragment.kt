@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_feed.*
  * @author Alexander Peebles
  * Student Number: 150328687
  * @see ItemsView
+ * @see Fragment
  * Used to display the Item cards in a feed to scroll through
  */
 class ItemsFragment: Fragment(), ItemsView {

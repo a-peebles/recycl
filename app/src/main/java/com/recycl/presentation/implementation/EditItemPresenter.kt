@@ -44,7 +44,6 @@ class EditItemPresenter @javax.inject.Inject constructor(private val database: F
     private var itemCategory = ""
     private var imageChanged = false
     private var itemImageFirebasePath = ""
-    private val TAG = "EditItemPresenter"
     private lateinit var item: Item
 
     /**

@@ -19,19 +19,41 @@ import com.recycl.ui.upload.UploadActivity
 import com.recycl.ui.welcome.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+/**
+ * MainActivity
+ * @author Alexander Peebles
+ * Student Number: 150328687
+ * @see AppCompatActivity
+ * @see MainView
+ * Displays Fragments and responds to button clicks and events on the Navigation
+ * components
+ */
 class MainActivity : AppCompatActivity(), MainView {
 
-    private val TAG = "MainActivity"
-
+    // Presenter used to handle button clicks
     private val presenter by lazy { mainPresenter() }
 
+    /**
+     * Used to set the launch intent to be MainActivity if not opened previously
+     */
     companion object {
+        /**
+         * Used to set the launch intent to be MainActivity if not opened previously
+         *  @param from - Context of the application
+         *  @return Intent - The intent of MainActivity
+         */
         fun getLaunchIntent(from: Context) = Intent(from, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
 
-
+    /**
+     * onCreate
+     * Sets up the Activity  user interface
+     * and the presenter view
+     * @param savedInstanceState - Activity's previously saved state
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +63,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
     }
 
+    /**
+     * initUi
+     * Sets up the interactive components of the user interface
+     */
     private fun initUi() {
 
         val adapter = MainPagerAdapter(supportFragmentManager)
@@ -54,8 +80,6 @@ class MainActivity : AppCompatActivity(), MainView {
 
         bottomNav.setOnNavigationItemSelectedListener {
             switchNavigationTab(it.order)
-            Log.i(TAG, "nav item clicked ")
-
             true
 
         }
@@ -63,17 +87,28 @@ class MainActivity : AppCompatActivity(), MainView {
         fragmentContainer.onPageChange { position ->
             val item = bottomNav.menu.getItem(position)
             bottomNav.selectedItemId = item.itemId
-            Log.i(TAG, "page changed $position")
         }
 
 
     }
 
+    /**
+     * onCreateOptionsMenu
+     * Creates the options menu when the corresponding button is clicked
+     * @param menu - Menu to display
+     * @return true when option button clicked
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
+    /**
+     * onOptionsItemSelected
+     * Performs corresponding action when a menu option is pressed
+     * @param menuItem - menu option that was clicked
+     *
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionAdd -> {
@@ -88,16 +123,29 @@ class MainActivity : AppCompatActivity(), MainView {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * switchNavigationTab
+     * Switches the Fragment displayed to the navigation item that was clicked
+     * @param position - The item in the List of Fragments to display
+     */
     private fun switchNavigationTab(position: Int) {
         fragmentContainer.setCurrentItem(position, true)
 
     }
 
+    /**
+     * openWelcome
+     * Opens the WelcomeActivity to display login/signup options if the user is not signed in
+     */
     override fun openWelcome() {
         startActivity(Intent(this, WelcomeActivity::class.java))
         this.finish()
     }
 
+    /**
+     * openUpload
+     * Opens the UploadActivity to upload an item
+     */
     override fun openUpload() {
         startActivity(Intent(this, UploadActivity::class.java))
     }
